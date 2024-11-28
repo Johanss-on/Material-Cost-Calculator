@@ -1,50 +1,46 @@
 # Sheet Cost Calculator
 
-This Python-based sheet cost calculator helps calculate the mass and cost of sheets based on their dimensions and material density. It's a useful tool for quickly determining the cost of material sheets in various manufacturing and production processes.
+This is a Python-based tool that calculates the cost of metal sheets based on their dimensions and material density. The program allows users to input the length, width, and thickness of sheets, select the material type, and calculate the total mass and cost based on the material price per kilogram.
 
 ## Features
+- **Material Selection**: Users can choose from various materials, each with a predefined price per kilogram.
+- **Customizable Pricing**: The pricing for each material can easily be adjusted in the code.
+- **Flexible Input**: Users can input multiple sheets and calculate their costs in bulk.
 
-- Calculate mass and cost of sheets based on length, width, thickness, and material density.
-- Choose from predefined material densities (Steel, Stainless Steel, Aluminium) or input custom density.
-- Option for demo mode to simulate data for multiple sheets.
+## Materials and Prices
+The following materials are supported with their corresponding prices per kilogram:
+- **Steel**: 12.5 SEK/kg
+- **Stainless Steel**: 15.0 SEK/kg
+- **Aluminium**: 10.0 SEK/kg
 
-## Installation
+## Installation and Setup
+
+To use the Sheet Cost Calculator, follow these steps:
 
 1. Clone this repository to your local machine:
-   ```bash
-   git clone https://github.com/yourusername/sheet-cost-calculator.git
-2. Navigate to the project folder:
-   ```bash
-   cd sheet-cost-calculator
-Ensure you have Python 3.x installed. If not, you can download it from the official Python website: https://www.python.org/downloads/
+    ```bash
+    git clone https://github.com/yourusername/sheet-cost-calculator.git
+    ```
 
-You don't need any additional dependencies for this project, as it uses built-in Python libraries.
+2. Navigate to the directory where the script is located:
+    ```bash
+    cd sheet-cost-calculator
+    ```
 
-# Usage
-1. Open a terminal or command prompt.
+3. Ensure you have Python 3 installed. You can download it from [here](https://www.python.org/downloads/).
 
-2. Navigate to the project directory:
-   ```bash
-     cd path/to/sheet-cost-calculator
-3. Run the program:
-   ```bash
+4. Run the script:
+    ```bash
     python3 calculate_sheet_cost_CLI.py
-4. The program will ask whether you want to run it in demo mode. You can choose:
+    ```
 
-y for demo mode (automatically generates data).
+## Usage
 
-n for manual input of sheet dimensions.
+- When prompted, input the number of sheets you'd like to calculate.
+- For each sheet, provide the length, width, and thickness in millimeters.
+- Select the material from the available options (Steel, Stainless Steel, or Aluminium).
+- The tool will calculate the mass of each sheet and display the cost based on the selected material.
 
-e to exit the program.
+## License
 
-After entering the number of sheets, it will ask for the details (length, width, thickness) for each sheet. Once entered, it will calculate and display the mass and cost of each sheet.
-
-# License
-This project is licensed under the GNU General Public License v3.0 (GPL-3.0). You are free to use, modify, and distribute the software under the terms of this license.
-
-See the LICENSE file for more details.
-
-# Acknowledgements
-This project was developed as an internal tool for calculating sheet material costs.
-
-This README includes a description of the tool, instructions for installation, and a simple usage guide. Don't forget to replace `https://github.com/yourusername/sheet-cost-calculator.git` with your actual repository URL.
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
