@@ -12,6 +12,7 @@
             margin: 0;
             padding: 0;
             line-height: 1.6;
+            padding-bottom: 60px; /* Added space for footer */
         }
 
         header {
@@ -78,11 +79,37 @@
             color: white;
             text-align: center;
             padding: 10px 0;
-            position: fixed;
+            position: relative; /* Changed from fixed to relative */
             bottom: 0;
             width: 100%;
         }
 
+        strong {
+            font-weight: bold;
+        }
+
+        .how-to-use {
+            font-size: 1.1em;
+            line-height: 1.7;
+        }
+
+        .how-to-use li {
+            margin-bottom: 10px;
+        }
+
+        .how-to-use li span {
+            font-weight: bold;
+        }
+
+        .how-to-use ol {
+            list-style-type: decimal;
+            margin-left: 30px;
+        }
+
+        .how-to-use ul {
+            list-style-type: none;
+            margin-left: 40px;
+        }
     </style>
 </head>
 <body>
@@ -101,23 +128,39 @@
         </ul>
 
         <h2>How to Use</h2>
-        <ol>
-            <li>Clone or download the <code>calculate_sheet_cost_CLI.py</code> script.</li>
-            <li>Open a terminal (or command prompt) and navigate to the directory where the script is located.</li>
-            <li>Run the script by typing the following command:
-                <pre><code>python calculate_sheet_cost_CLI.py</code></pre>
-            </li>
-            <li>You will be prompted to enter the following details:
-                <ul>
-                    <li><strong>Demo Mode:</strong> Choose whether to run in demo mode (simulating random data) or manual input mode.</li>
-                    <li><strong>Number of Sheets:</strong> Enter how many sheets you want to calculate.</li>
-                    <li><strong>Sheet Dimensions:</strong> Enter the length, width, and thickness of the sheets (in millimeters).</li>
-                    <li><strong>Material Density:</strong> Choose a material density (Steel, Stainless Steel, Aluminum, or Custom).</li>
-                </ul>
-            </li>
-            <li>For each sheet, the program will calculate and display the mass and cost.</li>
-            <li>You can repeat the calculation for another sheet or exit the program anytime by typing 'exit'.</li>
-        </ol>
+        <div class="how-to-use">
+            <ol>
+                <li><span>Clone or download the <code>calculate_sheet_cost_CLI.py</code> script.</span></li>
+                <li><span>Open a terminal (or command prompt) and navigate to the directory where the script is located.</span></li>
+                <li><span>Run the script by typing the following command:</span>
+                    <pre><code>python calculate_sheet_cost_CLI.py</code></pre>
+                </li>
+                <li><span>The program will prompt you for the following inputs:</span>
+                    <ul>
+                        <li><span><strong>Demo Mode:</strong> Choose whether to run in demo mode (simulating random data) or manual input mode.</span></li>
+                        <li><span><strong>Number of Sheets:</strong> Enter the number of sheets you want to calculate.</span></li>
+                        <li><span><strong>Material:</strong> Choose a material from the list by entering the corresponding number:
+                            <ul>
+                                <li><span>1: Steel</span></li>
+                                <li><span>2: Stainless Steel</span></li>
+                                <li><span>3: Aluminum</span></li>
+                                <li><span>4: Custom (Enter your custom density in kg/dm³)</span></li>
+                            </ul>
+                        </span></li>
+                        <li><span><strong>Sheet Dimensions:</strong> Enter the length, width, and thickness of the sheets (in millimeters).</span></li>
+                        <li><span><strong>Density:</strong> For the selected material, the script will either use a predefined density or ask for a custom density input.</span></li>
+                    </ul>
+                </li>
+                <li><span>For each sheet, the program will calculate and display the following information:</span>
+                    <ul>
+                        <li><span>Length, Width, Thickness</span></li>
+                        <li><span>Material and Density used</span></li>
+                        <li><span>Mass and Cost</span></li>
+                    </ul>
+                </li>
+                <li><span>If you want to exit the program at any time, type <strong>e</strong>.</span></li>
+            </ol>
+        </div>
 
         <h2>Demo Mode</h2>
         <p>In demo mode, the script will automatically generate random values for sheet dimensions and density, allowing you to quickly see how the program works. You can specify the number of sheets and observe how the program simulates the process for each sheet.</p>
@@ -158,8 +201,16 @@ Sheet 3:
 Do you want to calculate another sheet? (y/n, or 'e' to quit):
         </pre>
 
+        <h2>Material Pricing</h2>
+        <p>The script currently supports the following materials with fixed prices per kilogram:</p>
+        <ul>
+            <li><strong>Steel</strong>: 12.5 SEK/kg</li>
+            <li><strong>Stainless Steel</strong>: 15.0 SEK/kg</li>
+            <li><strong>Aluminium</strong>: 10.0 SEK/kg</li>
+        </ul>
+
         <h2>Technical Details</h2>
-        <p>The script uses basic mathematical calculations to determine the volume and mass of a sheet based on the input dimensions. The mass is then multiplied by the selected material density to calculate the final weight. The price is calculated based on the mass, with a fixed price per kilogram.</p>
+        <p>The script uses basic mathematical calculations to determine the volume and mass of a sheet based on the input dimensions. The mass is then multiplied by the selected material density to calculate the final weight. The price is calculated based on the mass, with a fixed price per kilogram for each material.</p>
 
         <h2>Contact</h2>
         <p>If you have any questions or encounter issues, please reach out to the developer: <strong>Lucas Johansson</strong>.</p>

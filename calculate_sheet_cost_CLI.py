@@ -1,214 +1,118 @@
 import random
-import time
 
-# Function to generate random sheet data for demo mode
-def generate_random_sheet_data():
-    # Reasonable ranges for the sheet dimensions (in mm)
-    length = random.randint(200, 1000)  # Length between 200 mm and 1000 mm
-    width = random.randint(200, 1000)   # Width between 200 mm and 1000 mm
-    thickness = random.choice([2, 3, 4, 5, 6, 8, 10])  # Random thickness from a list of options
-    return {"length": length, "width": width, "thickness": thickness}
+# Define the material prices and densities globally
+material_prices = {
+    "steel": 12,  # SEK per kg
+    "stainless_steel": 18,  # SEK per kg
+    "aluminum": 50,          # SEK per kg
+    "custom": 0              # SEK per kg (for custom material, price will be entered by the user)
+}
 
-# Function to generate a random density for demo mode
-def generate_random_density():
-    densities = [7.85, 7.95, 2.70]
-    return random.choice(densities)
+material_densities = {
+    "steel": 7.85,  # g/cm^3
+    "stainless_steel": 7.85,  # g/cm^3
+    "aluminum": 2.70,         # g/cm^3
+    "custom": 0              # density for custom material will be entered by the user
+}
 
-# Function to get sheet data (with demo mode option)
-def get_sheet_data(demo_mode=False):
-    sheets = []
-    num_sheets = input("Enter the number of sheets (or type 'exit' to quit): ").strip().lower()
-    if num_sheets == 'exit':
-        return 'exit'
+def calculate_mass(length, width, thickness, material):
+    # Get the density of the material
+    density = material_densities.get(material, 0)  # Default density is 0 if material is unknown
     
-    # Handle demo mode
-    num_sheets = int(num_sheets) if not demo_mode else random.randint(1, 5)  # Random number of sheets (1-5)
+    # Convert mm^3 to cm^3 (1 mm^3 = 0.001 cm^3)
+    volume = (length / 10) * (width / 10) * (thickness / 10)  # volume in cm^3
+    mass = volume * density  # mass in grams (g)
+    
+    return mass / 1000  # convert grams to kilograms
 
-    for i in range(num_sheets):
-        if demo_mode:
-            print(f"\nSimulating input for sheet {i + 1}...")
-            time.sleep(1)  # Simulate delay between inputs
-            sheet = generate_random_sheet_data()
-            print(f"Length: {sheet['length']} mm, Width: {sheet['width']} mm, Thickness: {sheet['thickness']} mm")
-        else:
-            print(f"\nEnter details for sheet {i + 1}:")
-            length = input("Enter length (in mm, or type 'exit' to quit): ").strip()
-            if length.lower() == 'exit':
-                return 'exit'
-            if not length.isdigit():
-                print("Invalid input. Please enter a valid number for length.")
-                continue
-            length = int(length)
-            
-            width = input("Enter width (in mm, or type 'exit' to quit): ").strip()
-            if width.lower() == 'exit':
-                return 'exit'
-            if not width.isdigit():
-                print("Invalid input. Please enter a valid number for width.")
-                continue
-            width = int(width)
+def calculate_cost(mass, material):
+    # Get the price per kg of the material
+    price_per_kg = material_prices.get(material, 0)  # Default price is 0 if material is unknown
+    return mass * price_per_kg  # cost in SEK
 
-            thickness = input("Enter thickness (in mm, or type 'exit' to quit): ").strip()
-            if thickness.lower() == 'exit':
-                return 'exit'
-            if not thickness.isdigit():
-                print("Invalid input. Please enter a valid number for thickness.")
-                continue
-            thickness = int(thickness)
-
-            sheet = {"length": length, "width": width, "thickness": thickness}
-        
-        sheets.append(sheet)
-        if demo_mode:
-            time.sleep(1)  # Simulate slight delay between entries
-
-    return sheets
-
-# Function to select the density with notes
-def select_density(demo_mode=False):
-    if demo_mode:
-        # In demo mode, randomly generate a density
-        density = generate_random_density()
-        print(f"\nSimulating density selection... Selected density: {density} kg/dm^3")
-        return density
-    else:
-        print("\nSelect density from the following options:")
-        print("1. 7.85 kg/dm^3 (Stål - Steel)")
-        print("2. 7.95 kg/dm^3 (Rostfritt - Stainless Steel)")
-        print("3. 2.70 kg/dm^3 (Aluminium)")
-        print("4. Custom density")
-
-        while True:
-            option = input("Enter your choice (1-4, or 'exit' to quit): ").strip().lower()
-            if option == 'exit':
-                return 'exit'
-            
-            if option in ['1', '2', '3']:
-                option = int(option)
-                break
-            elif option == '4':
-                custom_density = input("Enter custom density (in kg/dm^3, or 'exit' to quit): ").strip()
-                if custom_density.lower() == 'exit':
-                    return 'exit'
-                try:
-                    custom_density = float(custom_density)
-                    return custom_density
-                except ValueError:
-                    print("Invalid input. Please enter a valid numeric density value.")
-                    continue
-            else:
-                print("Invalid choice. Please select a valid option.")
-
-        if option == 1:
-            return 7.85
-        elif option == 2:
-            return 7.95
-        elif option == 3:
-            return 2.70
-
-# Function to calculate the volume, mass, and cost
-def calculate_cost(density, price_per_kg, sheets):
-    results = []
-    for sheet in sheets:
-        volume_mm3 = sheet["length"] * sheet["width"] * sheet["thickness"]
-        volume_dm3 = volume_mm3 / 1000000.0  # Convert mm^3 to dm^3
-        mass_kg = volume_dm3 * density
-        cost_sek = mass_kg * price_per_kg
-        results.append({"mass_kg": mass_kg, "cost_sek": cost_sek})
-    return results
-
-# Main function to control the flow
-def main():
+def get_input(prompt, valid_choices=None):
+    """Utility function for getting input and handling 'e' to exit."""
     while True:
-        demo_mode = input("Do you want to run the program in demo mode? (y/n, or 'e' to quit): ").strip().lower()
-        if demo_mode == 'e':
-            print("Exiting the program. Goodbye!")
-            break  # Exit the loop and end the program
-        elif demo_mode not in ['y', 'n']:
-            print("Invalid option. Please type 'y' (yes), 'n' (no), or 'e' (exit).")
-            continue
-
-        # Get number of sheets from the user or demo mode (this should be asked only once)
-        sheets_count = input("Enter the number of sheets (or type 'exit' to quit): ").strip().lower()
-        if sheets_count == 'exit':
-            print("Exiting the program. Goodbye!")
-            break  # Exit the program if 'exit' was typed
-        try:
-            sheets_count = int(sheets_count)
-        except ValueError:
-            print("Invalid input. Please enter a valid number for sheets count.")
-            continue
-
-        # Get sheet data from the user or demo mode (don't prompt again)
-        sheets = get_sheet_data(sheets_count, demo_mode == 'y')  # Pass sheets_count as an argument
-
-        if sheets == 'exit':
-            print("Exiting the program. Goodbye!")
-            break  # Exit the program if 'exit' was typed
-
-        # Select the density
-        density = select_density(demo_mode == 'y')
-        if density == 'exit':
-            print("Exiting the program. Goodbye!")
-            break  # Exit the program if 'exit' was typed
-
-        # Define the price per kg
-        price_per_kg = 12.5  # SEK per kg
-
-        # Perform the calculations
-        results = calculate_cost(density, price_per_kg, sheets)
-
-        # Display the results
-        print("\nCalculated Results:")
-        for i, result in enumerate(results):
-            print(f"\nSheet {i + 1}:")
-            print("  Mass: %.2f kg" % result["mass_kg"])
-            print("  Cost: %.2f SEK" % result["cost_sek"])
-
-        # Ask the user if they want to calculate another sheet
-        repeat = input("\nDo you want to calculate another sheet? (y/n, or 'e' to quit): ").strip().lower()
-        if repeat == 'e':
-            print("Exiting the program. Goodbye!")
-            break  # Exit the program if 'e' was typed
-        elif repeat == 'n':
-            print("Exiting the program. Goodbye!")
-            break  # Exit the program if 'n' was typed
-        elif repeat != 'y':
-            print("Invalid option. Please type 'y' (yes), 'n' (no), or 'e' (exit).")
-            continue
-
-
-# Function to get sheet data (with demo mode option)
-def get_sheet_data(num_sheets, demo_mode=False):
-    sheets = []
-    for i in range(num_sheets):
-        if demo_mode:
-            print(f"\nSimulating input for sheet {i + 1}...")
-            time.sleep(1)  # Simulate delay between inputs
-            sheet = generate_random_sheet_data()
-            print(f"Length: {sheet['length']} mm, Width: {sheet['width']} mm, Thickness: {sheet['thickness']} mm")
+        user_input = input(prompt).lower()
+        if user_input == 'e':
+            print("Exiting the program.")
+            exit()
+        if valid_choices and user_input not in valid_choices:
+            print("Invalid option. Please enter a valid option.")
         else:
-            print(f"\nEnter details for sheet {i + 1}:")
-            length = input("Enter length (in mm, or type 'exit' to quit): ")
-            if length.lower() == 'exit':
-                return 'exit'
-            length = int(length)
-            width = input("Enter width (in mm, or type 'exit' to quit): ")
-            if width.lower() == 'exit':
-                return 'exit'
-            width = int(width)
-            thickness = input("Enter thickness (in mm, or type 'exit' to quit): ")
-            if thickness.lower() == 'exit':
-                return 'exit'
-            thickness = int(thickness)
-            sheet = {"length": length, "width": width, "thickness": thickness}
-        
-        sheets.append(sheet)
-        if demo_mode:
-            time.sleep(1)  # Simulate slight delay between entries
+            return user_input
 
-    return sheets
+def main():
+    print("Welcome to the Sheet Cost Calculation CLI")
 
-# Run the program
+    # Ask for demo mode or manual input
+    demo_mode = get_input("Do you want to run the program in demo mode? (y/n, or 'e' to quit): ", ['y', 'n'])
+
+    # Ask for the number of sheets
+    while True:
+        try:
+            num_sheets = int(get_input("Enter the number of sheets: "))
+            if num_sheets <= 0:
+                print("Please enter a positive number.")
+                continue
+            break
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
+
+    # Loop through the number of sheets
+    for sheet_num in range(1, num_sheets + 1):
+        print(f"\nSimulating input for sheet {sheet_num}...")
+
+        if demo_mode == 'y':
+            # Generate random values for demo mode
+            length = random.randint(300, 1000)  # Random length between 300mm and 1000mm
+            width = random.randint(100, 600)    # Random width between 100mm and 600mm
+            thickness = random.randint(1, 20)   # Random thickness between 1mm and 20mm
+            material = random.choice(list(material_prices.keys()))  # Randomly choose material
+        else:
+            # Manual input mode for length, width, thickness, and material
+            length = int(get_input(f"Enter the length for sheet {sheet_num} (in mm): "))
+            width = int(get_input(f"Enter the width for sheet {sheet_num} (in mm): "))
+            thickness = int(get_input(f"Enter the thickness for sheet {sheet_num} (in mm): "))
+
+            # Display material choices
+            print("\nAvailable materials:")
+            print("1. Steel")
+            print("2. Stainless Steel")
+            print("3. Aluminum")
+            print("4. Custom (enter your own material)")
+
+            material_choice = get_input(f"Enter the material number for sheet {sheet_num}: ", ['1', '2', '3', '4'])
+            if material_choice == '1':
+                material = "steel"
+            elif material_choice == '2':
+                material = "stainless_steel"
+            elif material_choice == '3':
+                material = "aluminum"
+            elif material_choice == '4':
+                material = "custom"
+                custom_price = float(get_input("Enter the price per kg for the custom material (SEK): "))
+                custom_density = float(get_input("Enter the density (g/cm³) for the custom material: "))
+                # Update the price and density for custom material
+                material_prices["custom"] = custom_price
+                material_densities["custom"] = custom_density
+
+        print(f"  Length: {length} mm, Width: {width} mm, Thickness: {thickness} mm")
+        print(f"  Material: {material}")
+
+        mass = calculate_mass(length, width, thickness, material)
+        cost = calculate_cost(mass, material)
+
+        print(f"  Mass: {mass:.2f} kg")
+        print(f"  Cost: {cost:.2f} SEK")
+
+    # Ask if the user wants to calculate another set of sheets
+    another = get_input("\nDo you want to calculate another set of sheets? (y/n, or 'e' to quit): ", ['y', 'n'])
+    if another == 'y':
+        main()  # Re-run the main function to calculate again
+    else:
+        print("Exiting the program.")
+
+# Run the main function
 if __name__ == "__main__":
     main()
