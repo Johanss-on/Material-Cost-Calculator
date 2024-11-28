@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sheet Cost Calculation CLI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+        }
+
+        p, ul, ol {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        ul, ol {
+            margin-left: 20px;
+        }
+
+        pre {
+            background-color: #e0e0e0;
+            border: 1px solid #ccc;
+            padding: 15px;
+            font-size: 1.1em;
+            font-family: "Courier New", monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        section {
+            padding: 20px;
+            margin: 20px auto;
+            background-color: white;
+            max-width: 900px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        section ul li {
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Sheet Cost Calculation CLI</h1>
+    </header>
+
+    <section>
+        <p>This Python script calculates the mass and cost of metal sheets based on user input or generates simulated data for demonstration purposes. It allows the user to input sheet dimensions and select a material density to calculate the cost based on weight.</p>
+
+        <h2>Requirements</h2>
+        <ul>
+            <li>Python 3.7+ (You can download it from <a href="https://www.python.org/downloads/">here</a>)</li>
+            <li>The script uses the built-in <code>random</code> and <code>time</code> libraries.</li>
+        </ul>
+
+        <h2>How to Use</h2>
+        <ol>
+            <li>Clone or download the <code>calculate_sheet_cost_CLI.py</code> script.</li>
+            <li>Open a terminal (or command prompt) and navigate to the directory where the script is located.</li>
+            <li>Run the script by typing the following command:
+                <pre><code>python calculate_sheet_cost_CLI.py</code></pre>
+            </li>
+            <li>You will be prompted to enter the following details:
+                <ul>
+                    <li><strong>Demo Mode:</strong> Choose whether to run in demo mode (simulating random data) or manual input mode.</li>
+                    <li><strong>Number of Sheets:</strong> Enter how many sheets you want to calculate.</li>
+                    <li><strong>Sheet Dimensions:</strong> Enter the length, width, and thickness of the sheets (in millimeters).</li>
+                    <li><strong>Material Density:</strong> Choose a material density (Steel, Stainless Steel, Aluminum, or Custom).</li>
+                </ul>
+            </li>
+            <li>For each sheet, the program will calculate and display the mass and cost.</li>
+            <li>You can repeat the calculation for another sheet or exit the program anytime by typing 'exit'.</li>
+        </ol>
+
+        <h2>Demo Mode</h2>
+        <p>In demo mode, the script will automatically generate random values for sheet dimensions and density, allowing you to quickly see how the program works. You can specify the number of sheets and observe how the program simulates the process for each sheet.</p>
+
+        <h2>Exit the Program</h2>
+        <p>At any time, you can type 'exit' to quit the program. This will stop the script from asking further questions and exit gracefully.</p>
+
+        <h2>Example Usage</h2>
+        <pre>
+Do you want to run the program in demo mode? (y/n, or 'e' to quit): y
+Enter the number of sheets (or type 'exit' to quit): 3
+
+Simulating input for sheet 1...
+Length: 415 mm, Width: 500 mm, Thickness: 10 mm
+
+Simulating input for sheet 2...
+Length: 785 mm, Width: 208 mm, Thickness: 3 mm
+
+Simulating input for sheet 3...
+Length: 925 mm, Width: 550 mm, Thickness: 6 mm
+
+Simulating density selection... Selected density: 7.85 kg/dm^3
+
+Calculated Results:
+
+Sheet 1:
+  Mass: 16.29 kg
+  Cost: 203.61 SEK
+
+Sheet 2:
+  Mass: 3.85 kg
+  Cost: 48.07 SEK
+
+Sheet 3:
+  Mass: 23.96 kg
+  Cost: 299.53 SEK
+
+Do you want to calculate another sheet? (y/n, or 'e' to quit):
+        </pre>
+
+        <h2>Technical Details</h2>
+        <p>The script uses basic mathematical calculations to determine the volume and mass of a sheet based on the input dimensions. The mass is then multiplied by the selected material density to calculate the final weight. The price is calculated based on the mass, with a fixed price per kilogram.</p>
+
+        <h2>Contact</h2>
+        <p>If you have any questions or encounter issues, please reach out to the developer: <strong>Lucas Johansson</strong>.</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Lucas Johansson. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
